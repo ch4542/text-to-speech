@@ -4,51 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech-to-Text Converter</title>
-    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="<script crossorigin src="https://cdn.jsdelivr.net/npm/react-speech-recognition@3.9.0/dist/index.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
         }
-        .transcript {
+        #transcript {
             margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            width: 300px;
+            width: 80%;
             height: 100px;
-            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
         }
     </style>
 </head>
 <body>
     <h1>Speech-to-Text Converter</h1>
-    <div id="root"></div>
+    <button id="startButton">Start Recognition</button>
+    <button id="stopButton">Stop Recognition</button>
+    <div id="transcript" contenteditable="true"></div>
 
-    <script type="text/babel">
-        const { useSpeechRecognition } = ReactSpeechRecognition;
+    <script>
+        var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = true;
+        recognition.interimResults = true;
 
-        function SpeechToText() {
-            const { transcript, resetTranscript, listening, browserSupportsSpeechRecognition } = useSpeechRecognition();
+        document.getElementById('startButton').addEventListener('click', function() {
+            recognition.start();
+        });
 
-            if (!browserSupportsSpeechRecognition) {
-                return <span>Browser doesn't support speech recognition.</span>;
+        document.getElementById('stopButton').addEventListener('click', function() {
+            recognition.stop();
+        });
+
+        recognition.onresult = function(event) {
+            var transcript = '';
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
             }
-
-            return (
-                <div>
-                    <button onClick={resetTranscript}>Reset</button>
-                    <button onClick={() => window.SpeechRecognition.sstartListening()>
-                    <button onClick={() => window.SpeechRecognition.stopListening()
-                    <div className="transcript">{transcript}</div>
-                </div>
-            );
-        }
-
-        ReactDOM.render(<SpeechToText />, document.getElementById('root'));
+            document.getElementById('transcript').innerText = transcript;
+        };
     </script>
 </body>
 </html>
