@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech-to-Text Converter</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-speech-recognition"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .transcript {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 300px;
+            height: 100px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Speech-to-Text Converter</h1>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useSpeechRecognition } = ReactSpeechRecognition;
+
+        function SpeechToText() {
+            const { transcript, resetTranscript, listening, browserSupportsSpeechRecognition } = useSpeechRecognition();
+
+            if (!browserSupportsSpeechRecognition) {
+                return <span>Browser doesn't support speech recognition.</span>;
+            }
+
+            return (
+                <div>
+                    <button onClick={resetTranscript}>Reset</button>
+                    <button onClick={() => window.SpeechRecognition.startListening()}>Start</button>
+                    <button onClick={() => window.SpeechRecognition.stopListening()}>Stop</button>
+                    <div className="transcript">{transcript}</div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<SpeechToText />, document.getElementById('root'));
+    </script>
+</body>
+</html>
