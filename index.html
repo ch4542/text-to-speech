@@ -40,7 +40,12 @@
         margin-bottom: 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
-    }
+    }input[type="file"] {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
     button {
         padding: 10px 20px;
@@ -61,7 +66,7 @@
   <h1>Text-to-Speech Converter</h1>
     <input type="text" id="textToSpeak" placeholder="Enter text here">
     <button onclick="speakText()">Speak</button>
-<input type="file" id="fileToSpeak" accept=".txt">
+<input type="file" id="fileToSpeak" accept=".txt">, .pdf, .docx, .mp3, .wav, .mp4
     <script>
         function speakText() {
             var text = document.getElementById('textToSpeak').value;
