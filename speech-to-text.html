@@ -4,25 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech-to-Text Converter</title>
-    <style>
+    <sty<style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 50px;
+            background-color: #f0f8ff;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #005f6a;
         }
         #transcript {
             margin-top: 20px;
             width: 80%;
             height: 100px;
             border: 1px solid #ccc;
+            border-radius: 4px;
             padding: 10px;
+            background-color: #e6f7ff;
         }
+        input[type="file"] {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #ffffff;
+        }
+    </style>}
     </style>
 </head>
 <body>
     <h1>Speech-to-Text Converter</h1>
     <button id="startButton">Start Recognition</button>
     <button id="stopButton">Stop Recognition</button>
+    <input type="file" id="audioFile" accept="audio/*" />
     <div id="transcript" contenteditable="true"></div>
 
     <script>
