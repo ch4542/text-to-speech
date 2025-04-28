@@ -61,7 +61,7 @@
   <h1>Text-to-Speech Converter</h1>
     <input type="text" id="textToSpeak" placeholder="Enter text here">
     <button onclick="speakText()">Speak</button>
-
+<input type="file" id="fileToSpeak" accept=".txt">
     <script>
         function speakText() {
             var text = document.getElementById('textToSpeak').value;
@@ -69,6 +69,23 @@
             window.speechSynthesis.speak(utterance);
         }</div>
    
+    document.getElementById('fileToSpeak').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var text = e.target.result;
+                speakTextFromFile(text);
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    function speakTextFromFile(text) {
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+
     </scri</p
         t>
 </body>
