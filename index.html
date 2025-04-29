@@ -4,13 +4,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Text-to-Speech</a></li>
-            <li><a href="#">Speech-to-Text</a></li>
-            <li><a href="#">File Conversion</a></li>
-        </ul>
+    <nav<select id="functionSelect" onchange="switchFunction()">
+            <option value="textToSpeech">Text-to-Speech</option>
+            <option value="speechToText">Speech-to-Text</option>
+        </select>ul>
     </nav>
     <div class="container">
         <h1>Text-to-Speech Converter</h1>
@@ -24,7 +21,24 @@
             var utterance = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(utterance);
         }
-
+function switchFunction() {
+            var selectedFunction = document.getElementById('functionSelect').value;
+            if (selectedFunction === 'textToSpeech') {
+                document.querySelector('.container').innerHTML = `
+                    <h1>Text-to-Speech Converter</h1>
+                    <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
+                    <button onclick="speakText()">Speak</button>
+                    <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
+                `;
+            } else if (selectedFunction === 'speechToText') {
+                document.querySelector('.container').innerHTML = `
+                    <h1>Speech-to-Text Converter</h1>
+                    <input type="file" id="audioFile" accept="audio/*">
+                    <button onclick="convertSpeechToText()">Convert</button>
+                    <textarea id="transcript" readonly></textarea>
+                `;
+            }
+        }
         document.getElementById('fileToSpeak').addEventListener('change', function(event) {
             var file = event.target.files[0];
             if (file) {
