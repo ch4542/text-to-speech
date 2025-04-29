@@ -1,0 +1,68 @@
+
+Online Notepad
+File Edit Insert View Help 
+
+
+
+
+Font FamilyFont Sizes
+
+
+Words: 421 
+
+Simple Interface
+Nothing too fancy. Just a plain-text editor with a beautifully crafted, minimalistic interface that helps you stay focused on what you need to write.
+
+ 
+Autosave
+Never lose your notes with its auto save feature. Every time you make changes, it will automatically store the data locally within your browser.
+
+ 
+Word Count
+Track how many words there are in your text document with real-time word counter. The number of words will update as you type and make changes.
+
+ 
+Find & Replace
+Find and replace allows you to quickly search for a word or phrase in the whole page and substitute it with something else.
+
+ 
+Spellcheck
+It takes advantage of your browser's native spellchecker to instantly find spelling mistakes. Simply right-click the red underlined word and choose the correct spelling.
+
+ 
+Print
+Getting a hard copy of your notes has never been easier. You can prepare the document for printing or save it as a PDF file with a single click of a button.
+
+
+Overview
+Online Notepad is a free browser-based text editor that allows you to create and edit multiple plain-text files in your browser. No registration or login required. It is great for writing quick notes and printing simple pages. What makes it special is the autosave functionality, which saves your draft every second. This prevents data loss in case you accidentally close the tab or the browser window suddenly crashes. The document you're working on will be automatically restored when you visit again, even when you close and reopen your browser. There's also support for saving documents directly to your computer. Online Notepad is packed with core features that your common text editor provides, including undo, redo, copy, cut, paste, find and replace, font formatting, character map, insert date and time, emoji list, spell checker, word counter, open and save files, and print page.
+
+How does it work?
+Changes are saved automatically as you work thanks to HTML5 localStorage API. It grabs a copy of the content from the text editor and saves it to your computer. With this method, your data never leaves your device. The default time interval at which drafts are saved is 1000ms or 1 second. Your notes will stay in the web browser until you clear the cookies and other site data. You can try it out by typing anything in the editor and refreshing the page.
+
+Browser Compatibility
+Online Notepad supports modern web browsers including Google Chrome, Mozilla Firefox, Safari, Opera, Edge, Internet Explorer and Steam browser. You need to enable JavaScript in order to use the app.
+
+About
+This web app is a free product that can be used by any individual, company, school, government office, etc. I originally made this for myself to help me remember ideas that would eventually end up on my personal blog. This simple tool, which started as a simple project, has helped my productivity immensely, and I hope it helps you too.
+
+Features
+Our online notepad comes with several powerful features that make it a versatile tool for your writing needs:
+
+Rich Text Formatting: Although primarily a plain-text editor, you can format your text with basic styling options like bold, italic, and underline when needed.
+Keyboard Shortcuts: Increase your productivity with common keyboard shortcuts for operations like copy (Ctrl+C), paste (Ctrl+V), undo (Ctrl+Z), and more.
+Mobile Friendly: The editor is fully responsive and works seamlessly across all devices, from smartphones to desktop computers.
+No Sign-up Required: Start writing immediately without any registration process or login requirements.
+Tips for Using Online Notepad
+To get the most out of your Online Notepad experience:
+
+Use the 'Save As' feature regularly to backup important notes to your computer
+Take advantage of the find and replace feature for quick text editing
+Use the word counter to track your writing progress
+Remember that your notes persist between sessions unless you clear your browser data
+Privacy & Security
+We take your privacy seriously. Since all data is stored locally in your browser using localStorage, your notes remain private and secure. No data is transmitted to or stored on our servers. This makes it perfect for sensitive information, though we recommend backing up important notes to your local device.
+
+Quick Access
+For convenient access to Online Notepad, we recommend bookmarking this page in your browser. This will allow you to quickly access your notes with just one click, making it easier to jot down ideas or access your saved content whenever you need it. Most browsers allow you to bookmark a page by pressing Ctrl+D (Windows/Linux) or Command+D (Mac), or by clicking the star icon in your browser's address bar.
+
