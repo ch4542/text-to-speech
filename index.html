@@ -1,41 +1,46 @@
 <!DOCTYPE html>
-<html
-
-    button:hov}
-><link rel="stylesheet" href="style.css"
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-  <h1>Text-to-Speech Converter</h1>
-    <input type="text" id="textToSpeak" placeholder="Enter text here">
-    <button onclick="speakText()">Speak</button>
-<input type="file" id="fileToSpeak" accept=".txt">, .pdf, .docx, .mp3, .wav, .mp4
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Text-to-Speech</a></li>
+            <li><a href="#">Speech-to-Text</a></li>
+            <li><a href="#">File Conversion</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Text-to-Speech Converter</h1>
+        <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
+        <button onclick="speakText()">Speak</button>
+        <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
+    </div>
     <script>
         function speakText() {
             var text = document.getElementById('textToSpeak').value;
             var utterance = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(utterance);
-        }</div>
-   
-    document.getElementById('fileToSpeak').addEventListener('change', function(event) {
-        var file = event.target.files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var text = e.target.result;
-                speakTextFromFile(text);
-            };
-            reader.readAsText(file);
         }
-    });
 
-    function speakTextFromFile(text) {
-        var utterance = new SpeechSynthesisUtterance(text);
-        window.speechSynthesis.speak(utterance);
-    }
+        document.getElementById('fileToSpeak').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var text = e.target.result;
+                    speakTextFromFile(text);
+                };
+                reader.readAsText(file);
+            }
+        });
 
-    </scri</p
-        t>
+        function speakTextFromFile(text) {
+            var utterance = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(utterance);
+        }
+    </script>
 </body>
 </html>
-<!-- Trigge<!-- Trigger redeployment -->r redeployment -->
