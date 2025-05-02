@@ -41,19 +41,38 @@
             background-color: #ffffff;
         }
     </style>}
-    </style>
-</head>
-<body>
-    <h1>Speech-to-Text Converter</h1>
-    <button id="startButton">Start Recognition</button>
-    <button id="stopButton">Stop Recognition</button>
-    <input type="file" id="audioFile" accept="audio/*" />
-    <div id="transcript" contenteditable="true"></div>
+    </style><script src="https://cdnjs.cloudflare.com/ajax/libs/SpeechRecognition/3.14.2/speech-recognition.min.js"></script>
+<script>
+    var recognizer;
+    var recognizing = false;
 
-    <script>
-        var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.continuous = true;
-        recognition.interimResults = true;
+    function startRecognition() {
+        recognizer = new window.SpeechRecognition();
+        recognizer.continuous = true;
+        recognizer.interimResults = true;
+        recognizer.lang = 'en-US';
+
+        recognizer.onresult = function(event) {
+            var transcript = '';
+            for (var i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+            }
+            document.getElementById('transcript').innerText = transcript;
+        };
+
+        recognizer.start();
+        recognizing = true;
+    }
+
+    function stopRecognition() {
+        if (recognizing) {
+            recognizer.stop();
+            recognizing = false;
+        }
+    }
+
+    document.getElementById('startButton').addEventListener('click', startRecognition);
+    document.getElementById('stopButton').addEventListener('click', stopRecognition);
 
         document.getElementById('startButton').addEventListener('click', function() {
             recognition.start();
