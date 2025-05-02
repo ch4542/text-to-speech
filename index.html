@@ -4,6 +4,15 @@
     <link rel="stylesheet" hrefindex-style.css
 </head>
 <body>
+    <div class="sidebar">
+    <h2>Menu</h2>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Text-to-Speech</a></li>
+        <li><a href="#">Speech-to-Text</a></li>
+    </ul>
+</div>
+<div class="main-content">
     <nav<select id="functionSelect" onchange="switchFunction()">
             <option value="textToSpeech">Text-to-Speech</option>
             <option value="speechToText">Speech-to-Text</option>
@@ -14,7 +23,10 @@
         <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
         <button onclick="speakText()">Speak</button>
         <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
-    </div>
+    </div></dv
+            
+
+    
     <script>
         funct  if (!window.speechSynthesis) {
         alert("Your browser does not support speech synthesis.");
