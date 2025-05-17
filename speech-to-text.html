@@ -11,6 +11,7 @@
         <h1>Speech-to-Text Converter</h1>
         <button id="startButton">Start</button>
         <button id="stopButton" disabled>Stop</button>
+        <input type="file" id="audioFile" accept="audio/*,video/*">
         <textarea id="transcript" rows="5" readonly></textarea>
     </div>
 
@@ -50,6 +51,24 @@
             document.getElementById('stopButton').disabled = true;
         }
     }
+
+    function transcribeAudioFile(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        fetch('/transcribe', { method: 'POST', body: formData })
+            .then(resp => resp.json())
+            .then(data => {
+                document.getElementById('transcript').value = data.text || '';
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Transcription failed. Is the server running?');
+            });
+    }
+
+    document.getElementById('audioFile').addEventListener('change', function(e) {
+        if (e.target.files[0]) transcribeAudioFile(e.target.files[0]);
+    });
 
     document.getElementById('startButton').addEventListener('click', startRecognition);
     document.getElementById('stopButton').addEventListener('click', stopRecognition);
