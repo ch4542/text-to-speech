@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text to Speech</title>
     <link rel="stylesheet" href="index-style.css">
     <link rel="stylesheet" href="style.css">
@@ -24,6 +25,7 @@
         </nav>
         <div class="container">
             <h1>Text-to-Speech Converter</h1>
+            <select id="voiceSelect"></select>
             <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
             <button onclick="speakText()">Speak</button>
             <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
@@ -31,40 +33,112 @@
     </div>
 
     <script>
+    let recognition;
+    let recognizing = false;
+
+    function populateVoices() {
+        if (!window.speechSynthesis) return;
+        const voiceSelect = document.getElementById('voiceSelect');
+        if (!voiceSelect) return;
+        const voices = window.speechSynthesis.getVoices();
+        voiceSelect.innerHTML = '';
+        voices.forEach(v => {
+            const option = document.createElement('option');
+            option.value = v.name;
+            option.textContent = v.name + (v.default ? ' (default)' : '');
+            voiceSelect.appendChild(option);
+        });
+    }
+
+    function initializeTextToSpeech() {
+        populateVoices();
+        if (window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = populateVoices;
+        }
+    }
+
     function speakText() {
         if (!window.speechSynthesis) {
             alert('Your browser does not support speech synthesis.');
             return;
         }
-        var text = document.getElementById('textToSpeak').value;
-        var utterance = new SpeechSynthesisUtterance(text);
+        const text = document.getElementById('textToSpeak').value;
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voiceSelect = document.getElementById('voiceSelect');
+        if (voiceSelect) {
+            const voice = speechSynthesis.getVoices().find(v => v.name === voiceSelect.value);
+            if (voice) utterance.voice = voice;
+        }
         window.speechSynthesis.speak(utterance);
     }
 
+    function initializeSpeechRecognition() {
+        if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
+            alert('Your browser does not support speech recognition.');
+            return;
+        }
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
+        recognition.onresult = function(event) {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+            }
+            document.getElementById('transcript').innerText = transcript;
+        };
+    }
+
+    function startRecognition() {
+        if (!recognition) initializeSpeechRecognition();
+        if (recognition) {
+            recognition.start();
+            recognizing = true;
+            document.getElementById('startRecognitionButton').disabled = true;
+            document.getElementById('stopRecognitionButton').disabled = false;
+        }
+    }
+
+    function stopRecognition() {
+        if (recognition && recognizing) {
+            recognition.stop();
+            recognizing = false;
+            document.getElementById('startRecognitionButton').disabled = false;
+            document.getElementById('stopRecognitionButton').disabled = true;
+        }
+    }
+
     function switchFunction() {
-        var selectedFunction = document.getElementById('functionSelect').value;
+        const container = document.querySelector('.container');
+        const selectedFunction = document.getElementById('functionSelect').value;
         if (selectedFunction === 'textToSpeech') {
-            document.querySelector('.container').innerHTML = `
+            container.innerHTML = `
                 <h1>Text-to-Speech Converter</h1>
+                <select id="voiceSelect"></select>
                 <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
                 <button onclick="speakText()">Speak</button>
                 <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
             `;
+            initializeTextToSpeech();
         } else if (selectedFunction === 'speechToText') {
-            document.querySelector('.container').innerHTML = `
+            container.innerHTML = `
                 <h1>Speech-to-Text Converter</h1>
-                <input type="file" id="audioFile" accept="audio/*">
-                <button onclick="convertSpeechToText()">Convert</button>
-                <textarea id="transcript" readonly></textarea>
+                <button id="startRecognitionButton">Start</button>
+                <button id="stopRecognitionButton" disabled>Stop</button>
+                <p id="transcript"></p>
             `;
+            initializeSpeechRecognition();
+            document.getElementById('startRecognitionButton').addEventListener('click', startRecognition);
+            document.getElementById('stopRecognitionButton').addEventListener('click', stopRecognition);
         }
     }
 
     document.addEventListener('change', function (event) {
         if (event.target.id === 'fileToSpeak') {
-            var file = event.target.files[0];
+            const file = event.target.files[0];
             if (file) {
-                var reader = new FileReader();
+                const reader = new FileReader();
                 reader.onload = function (e) {
                     speakTextFromFile(e.target.result);
                 };
@@ -74,9 +148,11 @@
     });
 
     function speakTextFromFile(text) {
-        var utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(text);
         window.speechSynthesis.speak(utterance);
     }
+
+    document.addEventListener('DOMContentLoaded', initializeTextToSpeech);
     </script>
 </body>
 </html>

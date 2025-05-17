@@ -1,10 +1,10 @@
 # Text to Speech Demo
 
-This repository contains simple Web Speech API examples for converting text to speech and speech to text.
+This repository contains simple Web Speech API examples for converting text to speech and speech to text. The demos rely only on client-side code.
 
 ## Overview
 
-- **index.html** – demonstrates a combined interface for text-to-speech and speech-to-text. It loads `index-style.css` for styling.
+- **index.html** – demonstrates a combined interface for text-to-speech and speech-to-text. It loads `index-style.css` for styling and now supports voice selection and microphone recognition.
 - **speech-to-text.html** – focuses solely on converting spoken audio into text and uses `speech-to-text.css`.
 - **style.css** – an additional stylesheet with dark-themed styles that some pages reference.
 
@@ -26,7 +26,6 @@ These examples rely on the Web Speech API:
 
 ## Known issues
 
-- The HTML pages contain malformed markup and may not render perfectly. For example, some script tags are incomplete.
 - Browsers without Web Speech API support cannot run these demos.
 - When opening the files directly from `file://`, microphone access may be restricted. If recognition fails to start, try serving the files with a simple HTTP server (e.g. `python -m http.server`).
 
