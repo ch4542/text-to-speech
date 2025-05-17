@@ -5,51 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech-to-Text Converter</title>
     <link rel="stylesheet" href="speech-to-text.css">
-     
+</head>
+<body>
+    <div class="container">
+        <h1>Speech-to-Text Converter</h1>
+        <button id="startButton">Start Recognition</button>
+        <button id="stopButton" disabled>Stop</button>
+        <p id="transcript"></p>
+    </div>
 
-    function startRecognition() {
-        recognizer = new window.SpeechRecognition();
-        recognizer.continuous = true;
-        recognizer.interimResults = true;
-        recognizer.lang = 'en-US';
+    <script>
+        var recognition;
+        var recognizing = false;
 
-        recognizer.onresult = function(event) {
-            var transcript = '';
-            for (var i = event.resultIndex; i < event.results.length; i++) {
-                transcript += event.results[i][0].transcript;
-            }
-            document.getElementById('transcript').innerText = transcript;
-        };
-
-        recognizer.start();
-        recognizing = true;
-    }
-
-    function stopRecognition() {
-        if (recognizing) {
-            recognizer.stop();
-            recognizing = false;
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+        } else if ('SpeechRecognition' in window) {
+            recognition = new SpeechRecognition();
         }
-    }
 
-    document.getElementById('startButton').addEventListener('click', startRecognition);
-    document.getElementById('stopButton').addEventListener('click', stopRecognition);
+        if (recognition) {
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function(event) {
+                var transcript = '';
+                for (var i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                document.getElementById('transcript').innerText = transcript;
+            };
+
+            recognition.onstart = function() {
+                recognizing = true;
+                document.getElementById('startButton').disabled = true;
+                document.getElementById('stopButton').disabled = false;
+            };
+
+            recognition.onend = function() {
+                recognizing = false;
+                document.getElementById('startButton').disabled = false;
+                document.getElementById('stopButton').disabled = true;
+            };
+        }
 
         document.getElementById('startButton').addEventListener('click', function() {
-            recognition.start();
+            if (recognition && !recognizing) {
+                recognition.start();
+            }
         });
 
         document.getElementById('stopButton').addEventListener('click', function() {
-            recognition.stop();
-        });
-
-        recognition.onresult = function(event) {
-            var transcript = '';
-            for (var i = event.resultIndex; i < event.results.length; i++) {
-                transcript += event.results[i][0].transcript;
+            if (recognition && recognizing) {
+                recognition.stop();
             }
-            document.getElementById('transcript').innerText = transcript;
-        };
+        });
     </script>
 </body>
 </html>
