@@ -1,7 +1,7 @@
 <!DOCTYPE html><!-- Triggering a new deployment -->
 <html>
 <head>
-    <link rel="stylesheet" hrefindex-style.css
+    <link rel="stylesheet" href="index-style.css">
 </head>
 <body>
     <div class="sidebar">
@@ -13,30 +13,32 @@
     </ul>
 </div>
 <div class="main-content">
-    <nav<select id="functionSelect" onchange="switchFunction()">
+    <nav>
+        <select id="functionSelect" onchange="switchFunction()">
             <option value="textToSpeech">Text-to-Speech</option>
             <option value="speechToText">Speech-to-Text</option>
-        </select>ul>
+        </select>
     </nav>
     <div class="container">
         <h1>Text-to-Speech Converter</h1>
         <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
         <button onclick="speakText()">Speak</button>
         <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
-    </div></dv
-            
+    </div>
+</div>
 
-    
     <script>
-        funct  if (!window.speechSynthesis) {
-        alert("Your browser does not support speech synthesis.");
-        return;
-        }ion speakText() {
+        function speakText() {
+            if (!window.speechSynthesis) {
+                alert("Your browser does not support speech synthesis.");
+                return;
+            }
             var text = document.getElementById('textToSpeak').value;
             var utterance = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(utterance);
         }
-function switchFunction() {
+
+        function switchFunction() {
             var selectedFunction = document.getElementById('functionSelect').value;
             if (selectedFunction === 'textToSpeech') {
                 document.querySelector('.container').innerHTML = `
@@ -69,6 +71,10 @@ function switchFunction() {
         function speakTextFromFile(text) {
             var utterance = new SpeechSynthesisUtterance(text);
             window.speechSynthesis.speak(utterance);
+        }
+
+        function convertSpeechToText() {
+            alert('Speech-to-text conversion not implemented yet.');
         }
     </script>
 </body>
