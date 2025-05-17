@@ -11,8 +11,6 @@
         <h1>Speech-to-Text Converter</h1>
         <button id="startButton">Start</button>
         <button id="stopButton" disabled>Stop</button>
-        <button id="copyButton" disabled>Copy</button>
-        <textarea id="transcript" rows="5" placeholder="Transcript will appear here" readonly></textarea>
     </div>
 
     <script>
@@ -35,7 +33,7 @@
                 transcript += event.results[i][0].transcript;
             }
             document.getElementById('transcript').value = transcript;
-            document.getElementById('copyButton').disabled = transcript === '';
+
         };
 
         recognition.start();
