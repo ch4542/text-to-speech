@@ -1,76 +1,82 @@
-<!DOCTYPE html><!-- Triggering a new deployment -->
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" hrefindex-style.css
+    <meta charset="UTF-8">
+    <title>Text to Speech</title>
+    <link rel="stylesheet" href="index-style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="sidebar">
-    <h2>Menu</h2>
-    <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Text-to-Speech</a></li>
-        <li><a href="#">Speech-to-Text</a></li>
-    </ul>
-</div>
-<div class="main-content">
-    <nav<select id="functionSelect" onchange="switchFunction()">
-            <option value="textToSpeech">Text-to-Speech</option>
-            <option value="speechToText">Speech-to-Text</option>
-        </select>ul>
-    </nav>
-    <div class="container">
-        <h1>Text-to-Speech Converter</h1>
-        <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
-        <button onclick="speakText()">Speak</button>
-        <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
-    </div></dv
-            
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Text-to-Speech</a></li>
+            <li><a href="#">Speech-to-Text</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <nav>
+            <select id="functionSelect" onchange="switchFunction()">
+                <option value="textToSpeech">Text-to-Speech</option>
+                <option value="speechToText">Speech-to-Text</option>
+            </select>
+        </nav>
+        <div class="container">
+            <h1>Text-to-Speech Converter</h1>
+            <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
+            <button onclick="speakText()">Speak</button>
+            <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
+        </div>
+    </div>
 
-    
     <script>
-        funct  if (!window.speechSynthesis) {
-        alert("Your browser does not support speech synthesis.");
-        return;
-        }ion speakText() {
-            var text = document.getElementById('textToSpeak').value;
-            var utterance = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(utterance);
+    function speakText() {
+        if (!window.speechSynthesis) {
+            alert('Your browser does not support speech synthesis.');
+            return;
         }
-function switchFunction() {
-            var selectedFunction = document.getElementById('functionSelect').value;
-            if (selectedFunction === 'textToSpeech') {
-                document.querySelector('.container').innerHTML = `
-                    <h1>Text-to-Speech Converter</h1>
-                    <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
-                    <button onclick="speakText()">Speak</button>
-                    <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
-                `;
-            } else if (selectedFunction === 'speechToText') {
-                document.querySelector('.container').innerHTML = `
-                    <h1>Speech-to-Text Converter</h1>
-                    <input type="file" id="audioFile" accept="audio/*">
-                    <button onclick="convertSpeechToText()">Convert</button>
-                    <textarea id="transcript" readonly></textarea>
-                `;
-            }
+        var text = document.getElementById('textToSpeak').value;
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function switchFunction() {
+        var selectedFunction = document.getElementById('functionSelect').value;
+        if (selectedFunction === 'textToSpeech') {
+            document.querySelector('.container').innerHTML = `
+                <h1>Text-to-Speech Converter</h1>
+                <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
+                <button onclick="speakText()">Speak</button>
+                <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
+            `;
+        } else if (selectedFunction === 'speechToText') {
+            document.querySelector('.container').innerHTML = `
+                <h1>Speech-to-Text Converter</h1>
+                <input type="file" id="audioFile" accept="audio/*">
+                <button onclick="convertSpeechToText()">Convert</button>
+                <textarea id="transcript" readonly></textarea>
+            `;
         }
-        document.getElementById('fileToSpeak').addEventListener('change', function(event) {
+    }
+
+    document.addEventListener('change', function (event) {
+        if (event.target.id === 'fileToSpeak') {
             var file = event.target.files[0];
             if (file) {
                 var reader = new FileReader();
-                reader.onload = function(e) {
-                    var text = e.target.result;
-                    speakTextFromFile(text);
+                reader.onload = function (e) {
+                    speakTextFromFile(e.target.result);
                 };
                 reader.readAsText(file);
             }
-        });
-
-        function speakTextFromFile(text) {
-            var utterance = new SpeechSynthesisUtterance(text);
-            window.speechSynthesis.speak(utterance);
         }
+    });
+
+    function speakTextFromFile(text) {
+        var utterance = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(utterance);
+    }
     </script>
 </body>
 </html>
-<!-- Trigger redeployment -->
