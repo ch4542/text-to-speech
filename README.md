@@ -4,11 +4,7 @@ This repository contains simple Web Speech API examples for converting text to s
 
 ## Overview
 
-- **index.html** – demonstrates a combined interface for text-to-speech and speech-to-text. It loads `index-style.css` for styling and now supports voice selection and microphone recognition.
-- **speech-to-text.html** – focuses solely on converting spoken audio into text and uses `speech-to-text.css`.
-- **style.css** – an additional stylesheet with dark-themed styles that some pages reference.
-
-No server-side code is required. Simply open the HTML files in your browser.
+side code is required. Simply open the HTML files in your browser. 
 
 ## Opening the HTML files
 
