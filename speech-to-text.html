@@ -11,6 +11,7 @@
         <h1>Speech-to-Text Converter</h1>
         <button id="startButton">Start</button>
         <button id="stopButton" disabled>Stop</button>
+        <input type="file" id="audioFile" accept="audio/*,video/*">
         <textarea id="transcript" rows="5" readonly></textarea>
     </div>
 
@@ -50,6 +51,15 @@
             document.getElementById('stopButton').disabled = true;
         }
     }
+
+    function transcribeAudioFile(file) {
+        // Placeholder implementation
+        alert('Uploading audio for transcription is not supported in this demo.');
+    }
+
+    document.getElementById('audioFile').addEventListener('change', function(e) {
+        if (e.target.files[0]) transcribeAudioFile(e.target.files[0]);
+    });
 
     document.getElementById('startButton').addEventListener('click', startRecognition);
     document.getElementById('stopButton').addEventListener('click', stopRecognition);
