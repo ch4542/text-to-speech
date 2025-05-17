@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech-to-Text Converter</title>
     <link rel="stylesheet" href="speech-to-text.css">
 </head>
@@ -10,7 +11,7 @@
         <h1>Speech-to-Text Converter</h1>
         <button id="startButton">Start</button>
         <button id="stopButton" disabled>Stop</button>
-        <p id="transcript"></p>
+        <textarea id="transcript" rows="5" readonly></textarea>
     </div>
 
     <script>
@@ -18,6 +19,10 @@
     var recognizing = false;
 
     function startRecognition() {
+        if (!('SpeechRecognition' in window) && !('webkitSpeechRecognition' in window)) {
+            alert('Your browser does not support speech recognition.');
+            return;
+        }
         recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.continuous = true;
         recognition.interimResults = true;
@@ -28,7 +33,7 @@
             for (var i = event.resultIndex; i < event.results.length; i++) {
                 transcript += event.results[i][0].transcript;
             }
-            document.getElementById('transcript').innerText = transcript;
+            document.getElementById('transcript').value = transcript;
         };
 
         recognition.start();
