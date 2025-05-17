@@ -24,11 +24,20 @@
             </select>
         </nav>
         <div class="container">
-            <h1>Text-to-Speech Converter</h1>
-            <select id="voiceSelect"></select>
-            <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
-            <button onclick="speakText()">Speak</button>
-            <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
+            <div id="ttsSection">
+                <h1>Text-to-Speech Converter</h1>
+                <select id="voiceSelect"></select>
+                <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
+                <button id="speakButton">Speak</button>
+                <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
+            </div>
+            <div id="sttSection" style="display:none;">
+                <h1>Speech-to-Text Converter</h1>
+                <input type="file" id="audioFile" accept="audio/*,video/*">
+                <button id="startRecognitionButton">Start</button>
+                <button id="stopRecognitionButton" disabled>Stop</button>
+                <p id="transcript"></p>
+            </div>
         </div>
     </div>
 
@@ -110,49 +119,67 @@
     }
 
     function switchFunction() {
-        const container = document.querySelector('.container');
         const selectedFunction = document.getElementById('functionSelect').value;
+        const tts = document.getElementById('ttsSection');
+        const stt = document.getElementById('sttSection');
         if (selectedFunction === 'textToSpeech') {
-            container.innerHTML = `
-                <h1>Text-to-Speech Converter</h1>
-                <select id="voiceSelect"></select>
-                <textarea id="textToSpeak" placeholder="Enter text here"></textarea>
-                <button onclick="speakText()">Speak</button>
-                <input type="file" id="fileToSpeak" accept=".txt,.pdf,.docx,.mp3,.wav,.mp4">
-            `;
+            if (recognizing) stopRecognition();
+            tts.style.display = 'block';
+            stt.style.display = 'none';
             initializeTextToSpeech();
         } else if (selectedFunction === 'speechToText') {
-            container.innerHTML = `
-                <h1>Speech-to-Text Converter</h1>
-                <button id="startRecognitionButton">Start</button>
-                <button id="stopRecognitionButton" disabled>Stop</button>
-                <p id="transcript"></p>
-            `;
+            tts.style.display = 'none';
+            stt.style.display = 'block';
             initializeSpeechRecognition();
-            document.getElementById('startRecognitionButton').addEventListener('click', startRecognition);
-            document.getElementById('stopRecognitionButton').addEventListener('click', stopRecognition);
         }
     }
 
-    document.addEventListener('change', function (event) {
-        if (event.target.id === 'fileToSpeak') {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    speakTextFromFile(e.target.result);
-                };
-                reader.readAsText(file);
-            }
+    function handleFileSpeak(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                speakTextFromFile(e.target.result);
+            };
+            reader.readAsText(file);
         }
-    });
+    }
+
+    function transcribeAudioFile(file) {
+        // Placeholder for audio file transcription functionality
+        alert('File transcription is not supported in this demo. See README for offline options.');
+    }
+
+    function setupEventListeners() {
+        const speakBtn = document.getElementById('speakButton');
+        if (speakBtn) speakBtn.addEventListener('click', speakText);
+
+        const fileInput = document.getElementById('fileToSpeak');
+        if (fileInput) fileInput.addEventListener('change', handleFileSpeak);
+
+        const startBtn = document.getElementById('startRecognitionButton');
+        if (startBtn) startBtn.addEventListener('click', startRecognition);
+
+        const stopBtn = document.getElementById('stopRecognitionButton');
+        if (stopBtn) stopBtn.addEventListener('click', stopRecognition);
+
+        const audioInput = document.getElementById('audioFile');
+        if (audioInput) {
+            audioInput.addEventListener('change', function(e) {
+                if (e.target.files[0]) transcribeAudioFile(e.target.files[0]);
+            });
+        }
+    }
 
     function speakTextFromFile(text) {
         const utterance = new SpeechSynthesisUtterance(text);
         window.speechSynthesis.speak(utterance);
     }
 
-    document.addEventListener('DOMContentLoaded', initializeTextToSpeech);
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeTextToSpeech();
+        setupEventListeners();
+    });
     </script>
 </body>
 </html>

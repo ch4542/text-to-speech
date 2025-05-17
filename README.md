@@ -30,3 +30,7 @@ These examples rely on the Web Speech API:
 - When opening the files directly from `file://`, microphone access may be restricted. If recognition fails to start, try serving the files with a simple HTTP server (e.g. `python -m http.server`).
 
 
+
+## File upload support
+
+The demo interfaces allow selecting audio files, but the browser's built-in Speech Recognition API cannot directly transcribe uploaded audio. To transcribe files locally you would need to use an additional library such as Vosk or run a server-side service. The current implementation simply alerts that file transcription is unsupported.
