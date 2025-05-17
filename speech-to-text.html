@@ -2,46 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech-to-Text Converter</title>
     <link rel="stylesheet" href="speech-to-text.css">
-     
+</head>
+<body>
+    <div class="container">
+        <h1>Speech-to-Text Converter</h1>
+        <button id="startButton">Start</button>
+        <button id="stopButton" disabled>Stop</button>
+        <p id="transcript"></p>
+    </div>
+
+    <script>
+    var recognition;
+    var recognizing = false;
 
     function startRecognition() {
-        recognizer = new window.SpeechRecognition();
-        recognizer.continuous = true;
-        recognizer.interimResults = true;
-        recognizer.lang = 'en-US';
-
-        recognizer.onresult = function(event) {
-            var transcript = '';
-            for (var i = event.resultIndex; i < event.results.length; i++) {
-                transcript += event.results[i][0].transcript;
-            }
-            document.getElementById('transcript').innerText = transcript;
-        };
-
-        recognizer.start();
-        recognizing = true;
-    }
-
-    function stopRecognition() {
-        if (recognizing) {
-            recognizer.stop();
-            recognizing = false;
-        }
-    }
-
-    document.getElementById('startButton').addEventListener('click', startRecognition);
-    document.getElementById('stopButton').addEventListener('click', stopRecognition);
-
-        document.getElementById('startButton').addEventListener('click', function() {
-            recognition.start();
-        });
-
-        document.getElementById('stopButton').addEventListener('click', function() {
-            recognition.stop();
-        });
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = 'en-US';
 
         recognition.onresult = function(event) {
             var transcript = '';
@@ -50,6 +30,24 @@
             }
             document.getElementById('transcript').innerText = transcript;
         };
+
+        recognition.start();
+        recognizing = true;
+        document.getElementById('startButton').disabled = true;
+        document.getElementById('stopButton').disabled = false;
+    }
+
+    function stopRecognition() {
+        if (recognizing) {
+            recognition.stop();
+            recognizing = false;
+            document.getElementById('startButton').disabled = false;
+            document.getElementById('stopButton').disabled = true;
+        }
+    }
+
+    document.getElementById('startButton').addEventListener('click', startRecognition);
+    document.getElementById('stopButton').addEventListener('click', stopRecognition);
     </script>
 </body>
 </html>
